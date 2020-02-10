@@ -47,12 +47,12 @@ class GeosConan(ConanFile):
         cmake.build()
 
     def _patch_sources(self):
-        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
-                              "add_subdirectory(benchmarks)", "")
-        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
-                              "add_subdirectory(doc)", "")
-        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
-                              "add_subdirectory(tools)", "")
+        cmakelists_path = os.path.join(self._source_subfolder, "CMakeLists.txt")
+        tools.replace_in_file(cmakelists_path, "add_subdirectory(benchmarks)", "")
+        tools.replace_in_file(cmakelists_path, "add_subdirectory(doc)", "")
+        tools.replace_in_file(cmakelists_path, "add_subdirectory(tools)", "")
+        tools.replace_in_file(cmakelists_path, "find_package(MakeDistCheck)", "")
+        tools.replace_in_file(cmakelists_path, "AddMakeDistCheck()", "")
 
     def _configure_cmake(self):
         if self._cmake:
