@@ -50,6 +50,7 @@ class GeosConan(ConanFile):
         cmakelists_path = os.path.join(self._source_subfolder, "CMakeLists.txt")
         tools.replace_in_file(cmakelists_path, "add_subdirectory(benchmarks)", "")
         tools.replace_in_file(cmakelists_path, "add_subdirectory(doc)", "")
+        tools.replace_in_file(cmakelists_path, "LIBRARY DESTINATION lib NAMELINK_SKIP", "LIBRARY DESTINATION lib")
         tools.replace_in_file(cmakelists_path, "add_subdirectory(tools)", "")
         tools.replace_in_file(cmakelists_path, "find_package(MakeDistCheck)", "")
         tools.replace_in_file(cmakelists_path, "AddMakeDistCheck()", "")
@@ -73,6 +74,6 @@ class GeosConan(ConanFile):
         tools.rmdir(os.path.join(self.package_folder, "lib", "cmake"))
 
     def package_info(self):
-        self.cpp_info.libs = tools.collect_libs(self)
+        self.cpp_info.libs = ["geos_c", "geos"]
         if self.options.inline:
             self.cpp_info.defines.append("GEOS_INLINE")
