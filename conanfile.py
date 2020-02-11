@@ -48,6 +48,7 @@ class GeosConan(ConanFile):
 
     def _patch_sources(self):
         cmakelists_path = os.path.join(self._source_subfolder, "CMakeLists.txt")
+        tools.replace_in_file(cmakelists_path, "cmake_minimum_required(VERSION 3.13 FATAL_ERROR)", "")
         tools.replace_in_file(cmakelists_path, "add_subdirectory(benchmarks)", "")
         tools.replace_in_file(cmakelists_path, "add_subdirectory(doc)", "")
         tools.replace_in_file(cmakelists_path, "LIBRARY DESTINATION lib NAMELINK_SKIP", "LIBRARY DESTINATION lib")
