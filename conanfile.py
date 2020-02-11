@@ -37,6 +37,9 @@ class GeosConan(ConanFile):
         if self.settings.os == "Windows":
             del self.options.fPIC
 
+    def configure(self):
+        tools.check_min_cppstd(self, "11")
+
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
         os.rename(self.name, self._source_subfolder)
@@ -77,3 +80,5 @@ class GeosConan(ConanFile):
         self.cpp_info.libs = ["geos_c", "geos"]
         if self.options.inline:
             self.cpp_info.defines.append("GEOS_INLINE")
+        self.cpp_info.names["cmake_find_package"] = "GEOS"
+        self.cpp_info.names["cmake_find_package_multi"] = "GEOS"
