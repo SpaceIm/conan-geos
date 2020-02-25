@@ -9,7 +9,7 @@ class GeosConan(ConanFile):
     topics = ("conan", "geos", "osgeo", "geometry", "topology", "geospatial")
     homepage = "https://trac.osgeo.org/geos"
     url = "https://github.com/conan-io/conan-center-index"
-    exports_sources = "CMakeLists.txt"
+    exports_sources = ["CMakeLists.txt", "patches/*"]
     generators = "cmake"
     settings = "os", "arch", "compiler", "build_type"
     options = {
@@ -42,19 +42,9 @@ class GeosConan(ConanFile):
         os.rename(self.name, self._source_subfolder)
 
     def build(self):
-        self._patch_sources()
+        tools.patch(**self.conan_data["patches"][self.version])
         cmake = self._configure_cmake()
         cmake.build()
-
-    def _patch_sources(self):
-        cmakelists_path = os.path.join(self._source_subfolder, "CMakeLists.txt")
-        tools.replace_in_file(cmakelists_path, "cmake_minimum_required(VERSION 3.13 FATAL_ERROR)", "")
-        tools.replace_in_file(cmakelists_path, "add_subdirectory(benchmarks)", "")
-        tools.replace_in_file(cmakelists_path, "add_subdirectory(doc)", "")
-        tools.replace_in_file(cmakelists_path, "LIBRARY DESTINATION lib NAMELINK_SKIP", "LIBRARY DESTINATION lib")
-        tools.replace_in_file(cmakelists_path, "add_subdirectory(tools)", "")
-        tools.replace_in_file(cmakelists_path, "find_package(MakeDistCheck)", "")
-        tools.replace_in_file(cmakelists_path, "AddMakeDistCheck()", "")
 
     def _configure_cmake(self):
         if self._cmake:
