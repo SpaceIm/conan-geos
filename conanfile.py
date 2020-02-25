@@ -66,6 +66,8 @@ class GeosConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.libs = ["geos_c", "geos"]
+        if self.settings.os == "Linux":
+            self.cpp_info.system_libs = ["m"]
         if self.options.inline:
             self.cpp_info.defines.append("GEOS_INLINE")
         self.cpp_info.names["cmake_find_package"] = "GEOS"
