@@ -102,6 +102,7 @@ class GeosConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.set_property("cmake_file_name", "geos")
+        self.cpp_info.set_property("cmake_target_name", "GEOS::geos_c") # avoid to create unwanted geos::geos target
         self.cpp_info.set_property("pkg_config_name", "geos")
 
         self.cpp_info.filenames["cmake_find_package"] = "geos"
